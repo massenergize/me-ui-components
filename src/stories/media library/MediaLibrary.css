@@ -1,0 +1,63 @@
+@import url(./../assets/css/universal.css);
+
+.m-title-bar {
+  padding: 10px 30px;
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}
+
+.m-tab-header-area {
+  padding: 0px 30px;
+  display: flex;
+  flex-direction: row;
+}
+.m-tab-header-item {
+  padding: 0px 15px;
+  border-top-right-radius: 5px;
+  border-top-left-radius: 5px;
+  cursor: pointer;
+}
+.m-tab-header-item-selected {
+  border: solid 1px #ededed;
+  border-bottom-width: 0px;
+}
+.m-tab-header-item-unselected {
+  border: solid 0px #ededed;
+  border-bottom-width: 1px;
+}
+
+.m-tab-header-item-unselected:hover {
+  border-color: orange;
+  color: orange;
+  transition: 0.2s ease-out;
+}
+
+.m-content-area {
+  padding: 15px;
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+}
+.m-thumb-image {
+  object-fit: cover;
+  height: 130px;
+  width: 150px;
+  cursor: pointer;
+  border-radius: 2px;
+  border: solid 2px white;
+  padding: 2px;
+}
+
+.m-thumb-image:hover {
+  /* padding: 2px; */
+  box-shadow: var(--elevate-1);
+  transition: 0.2s ease-out;
+  border-color: orange;
+}
+/* 
+.m-thumbnail {
+  height: 170px;
+  width: 170px;
+  border: solid 1px #eeeeee;
+} */
