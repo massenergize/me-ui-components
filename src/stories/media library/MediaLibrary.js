@@ -1,8 +1,9 @@
-import React from "react";
+import React, { useRef, useState } from "react";
 import PropTypes from "prop-types";
 import "./MediaLibrary.css";
 import Modal from "../modal/Modal";
 import broken from "./../assets/img/img_broken.png";
+import loadingGif from "./shared/images/loading-gif.gif";
 function MediaLibrary(props) {
   return (
     <div>
@@ -22,7 +23,11 @@ function MediaLibrary(props) {
 
           <div className="m-content-area" style={{ padding: 15 }}>
             {[1, 2, 3, 4, 4, 4, 4, 4].map((item, index) => {
-              return <ImageThumbnail />;
+              return (
+                <div key={index.toString()}>
+                  <ImageThumbnail />
+                </div>
+              );
             })}
           </div>
         </div>
@@ -31,19 +36,38 @@ function MediaLibrary(props) {
   );
 }
 
-MediaLibrary.propTypes = {};   
-
-
-
+MediaLibrary.propTypes = {};
 
 const ImageThumbnail = (props) => {
+  var imageRef = useRef(null);
+  const [showImage, setShowImage] = useState(false);
+  const [src, setSrc] = useState(null);
   return (
     <div className="m-thumbnail">
+      {/*  This is what actually loads the image, but is always invisible */}
       <img
         src="https://i.pravatar.cc/300"
-        className="m-thumb-image"
-        onError={(e) => (e.target.src = broken)}
+        style={{ width: 0, opacity: 0 }}
+        onLoad={(e) => {
+          setShowImage(true);
+          setSrc(e.target.src);
+        }}
       />
+      {!showImage && (
+        <img
+          ref={(el) => (imageRef = el)}
+          src={loadingGif}
+          style={{ objectFit: "contain", height: 60, width: 60, margin: 20 }}
+          onError={(e) => (e.target.src = broken)}
+        />
+      )}
+      {showImage && (
+        <img
+          src={src}
+          className="m-thumb-image"
+          onError={(e) => (e.target.src = broken)}
+        />
+      )}
     </div>
   );
 };
