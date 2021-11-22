@@ -1,5 +1,41 @@
 @import url(./../assets/css/universal.css);
 
+.ml-footer-btn {
+  padding: 20px 40px;
+  height: 100%;
+  border: 0px;
+  cursor: pointer;
+  background-color: var(--btn-background);
+  color: var(--btn-color);
+  font-weight: bold;
+}
+.ml-footer-btn:active {
+  background-color: #282828 !important;
+}
+.ml-footer-btn:hover {
+  background-color: cornflowerblue;
+  color: white;
+  /* transition: 0.2s ease-out; */
+}
+.ml-footer-btn:focus {
+  outline: 0;
+}
+.ml-footer {
+  /* padding: 15px; */
+  background-color: #f9f9f9;
+  display: flex;
+}
+.ml-sidepane-container {
+  position: absolute;
+  padding: 15px;
+  right: 0;
+  top: 0;
+  height: 100%;
+  width: 210px;
+  background: white;
+  border-top-right-radius: 6px;
+  border-bottom-right-radius: 6px;
+}
 .m-title-bar {
   padding: 10px 30px;
   display: flex;

@@ -4,41 +4,70 @@ import "./MediaLibrary.css";
 import Modal from "../modal/Modal";
 import broken from "./../assets/img/img_broken.png";
 import loadingGif from "./shared/images/loading-gif.gif";
+import SidePane from "./SidePane";
 function MediaLibrary(props) {
   return (
-    <div>
-      <Modal showOverlay={false} size="lg" style={{ height: 600 }}>
-        <div className="m-inner-container">
-          <div className="m-title-bar">
-            <h3>Media Library</h3>
-            <div className="m-tab-header-area">
-              <div className="m-tab-header-item m-tab-header-item-unselected">
-                <p>Upload</p>
-              </div>
-              <div className="m-tab-header-item m-tab-header-item-selected">
-                <p>Library</p>
+    <React.Fragment>
+      <Modal
+        showOverlay={false}
+        size="lg"
+        style={{
+          height: 600,
+          borderBottomRightRadius: 0,
+          borderBottomLeftRadius: 0,
+        }}
+      >
+        <div style={{ position: "relative", height: "100%" }}>
+          <SidePane />
+          <div className="m-inner-container">
+            <div className="m-title-bar">
+              <h3>Media Library</h3>
+              <div className="m-tab-header-area">
+                <div className="m-tab-header-item m-tab-header-item-unselected">
+                  <p>Upload</p>
+                </div>
+                <div className="m-tab-header-item m-tab-header-item-selected">
+                  <p>Library</p>
+                </div>
               </div>
             </div>
-          </div>
 
-          <div className="m-content-area" style={{ padding: 15 }}>
-            {[1, 2, 3, 4, 4, 4, 4, 4].map((item, index) => {
-              return (
-                <div key={index.toString()}>
-                  <ImageThumbnail />
-                </div>
-              );
-            })}
+            <div className="m-content-area" style={{ padding: 15 }}>
+              {[1, 2, 3, 4, 4, 4, 4, 4].map((item, index) => {
+                return (
+                  <div key={index.toString()}>
+                    <ImageThumbnail />
+                  </div>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+        {/* ------- FOOOOOOOOOOOTER ------------- */}
+        <div className="ml-footer elevate-1">
+          <div style={{ marginLeft: "auto" }}>
+            <button
+              className="ml-footer-btn"
+              style={{ "--btn-color": "white", "--btn-background": "maroon" }}
+            >
+              CANCEL
+            </button>
+            <button
+              className="ml-footer-btn"
+              style={{ "--btn-color": "white", "--btn-background": "green" }}
+            >
+              INSERT
+            </button>
           </div>
         </div>
       </Modal>
-    </div>
+    </React.Fragment>
   );
 }
 
 MediaLibrary.propTypes = {};
 
-const ImageThumbnail = (props) => {
+export const ImageThumbnail = (props) => {
   var imageRef = useRef(null);
   const [showImage, setShowImage] = useState(false);
   const [src, setSrc] = useState(null);
