@@ -12,6 +12,7 @@ function MediaLibrary({ multiple = true }) {
 
   const [previews, setPreviews] = useState([]);
   const [files, setFiles] = useState([]);
+  const [content, setSelectedContent] = useState(null);
 
   const Tabs = [
     {
@@ -32,7 +33,11 @@ function MediaLibrary({ multiple = true }) {
       key: "library",
       component: (
         <Suspense fallback={<p>Loading...</p>}>
-          <Library getActiveImage={setActiveImage} />
+          <Library
+            // getActiveImage={setActiveImage}
+            setSelectedContent={setSelectedContent}
+            content={content}
+          />
         </Suspense>
       ),
     },
@@ -52,7 +57,7 @@ function MediaLibrary({ multiple = true }) {
         className="elevate-5"
       >
         <div style={{ position: "relative", height: "100%" }}>
-          {activeImage && <SidePane activeImage={activeImage} />}
+          {content && <SidePane activeImage={content} />}
           <div className="m-inner-container">
             <div className="m-title-bar">
               <h3>Media Library</h3>
