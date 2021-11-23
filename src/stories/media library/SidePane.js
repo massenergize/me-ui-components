@@ -1,11 +1,11 @@
 import React from "react";
 import ImageThumbnail from "./shared/components/thumbnail/ImageThumbnail";
 
-export default function SidePane() {
+export default function SidePane({ activeImage }) {
   return (
     <div className="ml-sidepane-container elevate-float">
       <h5 style={{ margin: 0, marginBottom: 10 }}>IMAGE DETAILS</h5>
-      <ImageThumbnail />
+      <ImageThumbnail imageSource={activeImage?.url} />
 
       <h6 style={{ margin: 0 }}>URL</h6>
       <a href="#" style={{ fontSize: 13, color: "cornflowerblue" }}>

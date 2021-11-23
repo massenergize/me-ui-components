@@ -8,16 +8,17 @@ import Upload from "./shared/components/upload/Upload";
 import Library from "./shared/components/library/Library";
 
 function MediaLibrary(props) {
+  const [currentTab, setCurrentTab] = useState("upload");
+  const [activeImage, setActiveImage] = useState(null);
+
   const Tabs = [
     { headerName: "Upload", key: "upload", component: <Upload /> },
     {
       headerName: "Library",
       key: "library",
-      component: <Library />,
+      component: <Library getActiveImage={setActiveImage} />,
     },
   ];
-
-  const [currentTab, setCurrentTab] = useState("upload");
 
   const TabComponent = Tabs.find((tab) => tab.key === currentTab)?.component;
   return (
@@ -30,9 +31,10 @@ function MediaLibrary(props) {
           borderBottomRightRadius: 0,
           borderBottomLeftRadius: 0,
         }}
+        className="elevate-5"
       >
         <div style={{ position: "relative", height: "100%" }}>
-          <SidePane />
+          {activeImage && <SidePane activeImage={activeImage} />}
           <div className="m-inner-container">
             <div className="m-title-bar">
               <h3>Media Library</h3>
@@ -45,7 +47,10 @@ function MediaLibrary(props) {
                       className={`m-tab-header-item m-tab-header-item-${
                         isCurrent ? "selected" : "unselected"
                       }`}
-                      onClick={() => setCurrentTab(tab.key)}
+                      onClick={() => {
+                        setCurrentTab(tab.key);
+                        setActiveImage(null);
+                      }}
                     >
                       <p>{tab.headerName}</p>
                     </div>

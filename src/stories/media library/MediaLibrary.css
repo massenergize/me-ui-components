@@ -89,6 +89,7 @@
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
+  position: relative;
 }
 .m-thumb-image {
   object-fit: cover;

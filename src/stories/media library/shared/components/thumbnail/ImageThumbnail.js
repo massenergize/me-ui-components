@@ -17,6 +17,10 @@ function ImageThumbnail({ onClick, imageSource }) {
           setShowImage(true);
           setSrc(e.target.src);
         }}
+        onError={() => {
+          setShowImage(true);
+          setSrc(broken);
+        }}
       />
       {!showImage && (
         <img
