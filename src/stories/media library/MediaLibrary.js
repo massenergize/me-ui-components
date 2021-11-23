@@ -34,7 +34,7 @@ function MediaLibrary(props) {
         showOverlay={false}
         size="lg"
         style={{
-          height: 600,
+          minHeight: 680,
           borderBottomRightRadius: 0,
           borderBottomLeftRadius: 0,
         }}
