@@ -38,11 +38,12 @@
   position: absolute;
   width: 100%;
   bottom: 0;
+  align-items: center;
 }
 .ml-sidepane-container {
   z-index: 10;
   position: absolute;
-  padding: 15px;
+  /* padding: 15px; */
   right: 0;
   top: 0;
   height: 90%;
@@ -50,6 +51,8 @@
   background: white;
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
+  opacity: 0;
+ 
 }
 .m-title-bar {
   padding: 10px 30px;
@@ -113,3 +116,20 @@
   width: 170px;
   border: solid 1px #eeeeee;
 } */
+
+@keyframes slide-from-left {
+  from {
+    opacity: 0;
+    transform: translateX(50px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0px);
+  }
+}
+
+.side-pane-slide-animation {
+  animation-name: slide-from-left;
+  animation-duration: 0.2s;
+  animation-fill-mode: forwards;
+}

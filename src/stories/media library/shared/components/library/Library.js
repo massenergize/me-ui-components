@@ -3,12 +3,19 @@ import PropTypes from "prop-types";
 
 import ImageThumbnail from "../thumbnail/ImageThumbnail";
 
-function Library({ multiple, getActiveImage, setSelectedContent, content }) {
+function Library({
+  multiple,
+  getActiveImage,
+  setSelectedContent,
+  content,
+  setShowSidePane,
+}) {
   const handleSelection = (image) => {
+    setShowSidePane(true);
     if (!multiple) return setSelectedContent(image);
     var images = content || [];
-    var found = images.find((img) => img.id === image.id);
-    var rest = images.filter((img) => img.id !== image.id);
+    var found = images?.find((img) => img.id === image.id);
+    var rest = images?.filter((img) => img.id !== image.id);
     if (!found) rest = [...rest, image];
     setSelectedContent(rest);
   };

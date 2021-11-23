@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 import broken from "./img_broken.png";
 import loadingGif from "./loading-gif.gif";
 
-function ImageThumbnail({ onClick, imageSource }) {
+function ImageThumbnail({ onClick, imageSource, style = {} }) {
   const [showImage, setShowImage] = useState(false);
   const [src, setSrc] = useState(null);
 
@@ -34,6 +34,7 @@ function ImageThumbnail({ onClick, imageSource }) {
           onClick={() => onClick && onClick()}
           src={src}
           className="m-thumb-image"
+          style={style}
           onError={(e) => (e.target.src = broken)}
         />
       )}

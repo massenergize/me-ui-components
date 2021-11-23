@@ -30,7 +30,7 @@ function Upload({ files, setFiles, previews, setPreviews, multiple }) {
       const fileJson = { id: getRandomStringKey(), file: file };
       arr.push(fileJson);
     }
-    setFiles((prevFiles) => [...arr, ...prevFiles]);
+    setFiles((prevFiles) => [...prevFiles, ...arr]);
     processForPreview(arr);
   };
 
@@ -40,12 +40,11 @@ function Upload({ files, setFiles, previews, setPreviews, multiple }) {
     var _files = getFilesFromTransfer(e?.dataTransfer?.items);
     var arr = [];
     for (let i = 0; i < _files.length; i++) {
-      
       const file = _files[i];
       const fileJson = { id: getRandomStringKey(), file: file };
       arr.push(fileJson);
     }
-    _files = [...arr, ...files];
+    _files = [...files, ...arr];
     setFiles(_files);
     processForPreview(arr);
   };
@@ -59,7 +58,7 @@ function Upload({ files, setFiles, previews, setPreviews, multiple }) {
         src: baseImage,
         sizeText: getFileSize(fileObj?.file),
       };
-      setPreviews((previous) => [obj, ...previous]);
+      setPreviews((previous) => [...previous, obj]);
     }
   };
 
