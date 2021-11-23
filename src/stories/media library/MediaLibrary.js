@@ -6,15 +6,26 @@ import SidePane from "./SidePane";
 import Upload from "./shared/components/upload/Upload";
 const Library = React.lazy(() => import("./shared/components/library/Library"));
 
-function MediaLibrary(props) {
+function MediaLibrary({ multiple = true }) {
   const [currentTab, setCurrentTab] = useState("upload");
   const [activeImage, setActiveImage] = useState(null);
+
+  const [previews, setPreviews] = useState([]);
+  const [files, setFiles] = useState([]);
 
   const Tabs = [
     {
       headerName: "Upload",
       key: "upload",
-      component: <Upload />,
+      component: (
+        <Upload
+          previews={previews}
+          setPreviews={setPreviews}
+          files={files}
+          setFiles={setFiles}
+          multiple={multiple}
+        />
+      ),
     },
     {
       headerName: "Library",

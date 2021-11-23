@@ -4,17 +4,22 @@ import "./Upload.css";
 import uploadDummy from "./up_img.png";
 import {
   getFilesFromTransfer,
+  getFileSize,
   getRandomStringKey,
   readContentOfSelectedFile,
+  smartString,
 } from "../../utils/utils";
 
-function Upload(props) {
-  const [files, setFiles] = useState([]);
-  const [previews, setPreviews] = useState([]);
-  const [tempBasket, setTempBasket] = useState([]);
-  
+export const EXTENSIONS = [
+  "image/jpg",
+  "image/png",
+  "image/jpeg",
+  "application/pdf",
+];
+function Upload({ files, setFiles, previews, setPreviews, multiple }) {
   const dragBoxRef = useRef(null);
   const fileOpenerRef = useRef(null);
+  useEffect(() => {}, [previews, files]);
 
   const handleSelectedFiles = (e) => {
     e.preventDefault();
@@ -25,9 +30,7 @@ function Upload(props) {
       const fileJson = { id: getRandomStringKey(), file: file };
       arr.push(fileJson);
     }
-    arr = [...arr, ...files];
-    console.log("LE FILES", arr);
-    setFiles(arr);
+    setFiles((prevFiles) => [...arr, ...prevFiles]);
     processForPreview(arr);
   };
 
@@ -37,37 +40,36 @@ function Upload(props) {
     var _files = getFilesFromTransfer(e?.dataTransfer?.items);
     var arr = [];
     for (let i = 0; i < _files.length; i++) {
+      
       const file = _files[i];
-      const fileJson = { id: Date.now(), file: file };
+      const fileJson = { id: getRandomStringKey(), file: file };
       arr.push(fileJson);
     }
     _files = [...arr, ...files];
     setFiles(_files);
-    processForPreview(_files);
-    console.log(_files);
-  };
-
-  const createImage = async (file, cb) => {
-    const baseImage = await readContentOfSelectedFile(file);
-    if (cb) cb(baseImage);
+    processForPreview(arr);
   };
 
   const processForPreview = async (files) => {
     for (let i = 0; i < files?.length; i++) {
       const fileObj = files[i];
       const baseImage = await readContentOfSelectedFile(fileObj?.file);
-      const obj = { ...fileObj, src: baseImage };
-      const newTogether = [obj, ...previews];
-      setPreviews(newTogether);
-      // if (i !== files.length - 1) setTempBasket(newTogether);
-      // else {
-      //   setPreviews(newTogether);
-      //   setTempBasket([]);
-      // }
+      const obj = {
+        ...fileObj,
+        src: baseImage,
+        sizeText: getFileSize(fileObj?.file),
+      };
+      setPreviews((previous) => [obj, ...previous]);
     }
   };
 
-  useEffect(() => {}, [previews]);
+  const removeAnImage = (id) => {
+    const remFxn = (item) => item.id !== id;
+    const restFiles = files.filter(remFxn);
+    const restPreviews = previews.filter(remFxn);
+    setPreviews(restPreviews);
+    setFiles(restFiles);
+  };
   return (
     <div
       style={{
@@ -85,7 +87,8 @@ function Upload(props) {
         ref={fileOpenerRef}
         style={{ width: 0, height: 0 }}
         onChange={(e) => handleSelectedFiles(e)}
-        multiple
+        accept={EXTENSIONS.join(", ")}
+        multiple={multiple}
       />
       <div
         ref={dragBoxRef}
@@ -97,7 +100,28 @@ function Upload(props) {
         }}
         onDrop={(e) => handleDroppedFile(e)}
       >
-        <img src={uploadDummy} style={{ width: 110, height: 66 }} />
+        {files?.length > 0 ? (
+          <>
+            <p>
+              Upload ({files?.length}) File{files?.length == 1 ? "" : "s"}
+            </p>
+            <button
+              className="ml-footer-btn"
+              style={{
+                "--btn-color": "white",
+                "--btn-background": "green",
+                height: "auto",
+                borderRadius: 4,
+              }}
+            >
+              UPLOAD
+            </button>
+          </>
+        ) : (
+          <>
+            <img src={uploadDummy} style={{ width: 110, height: 66 }} />
+          </>
+        )}
         <p>
           Drag and drop image here or{" "}
           <a
@@ -114,10 +138,10 @@ function Upload(props) {
       {/* ----------------- PREVIEW AREA --------------- */}
       <div className="ml-preview-area">
         {previews?.map((prev, index) => {
-          console.log("I amt eh prev", index);
+          // console.log("This is the preview: ", prev);
           return (
             <React.Fragment key={prev?.id?.toString()}>
-              <PreviewElement {...prev} />
+              <PreviewElement {...prev} remove={removeAnImage} />
             </React.Fragment>
           );
         })}
@@ -126,7 +150,7 @@ function Upload(props) {
   );
 }
 
-const PreviewElement = ({ file, id, src }) => {
+const PreviewElement = ({ file, id, src, sizeText, remove }) => {
   return (
     <div
       style={{
@@ -138,11 +162,13 @@ const PreviewElement = ({ file, id, src }) => {
       }}
     >
       <img src={src} className="ml-preview-image" />
-      <small>Filename: Some file bi</small>{" "}
+      <small>{smartString(file?.name)}</small>
       <small>
-        Size: <b>32 Mb</b>
+        Size: <b>{sizeText}</b>
       </small>
-      <small className="ml-prev-el-remove">Remove</small>
+      <small className="ml-prev-el-remove" onClick={() => remove(id)}>
+        Remove
+      </small>
     </div>
   );
 };

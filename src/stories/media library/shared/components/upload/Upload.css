@@ -20,7 +20,7 @@
 .ml-preview-area {
   display: flex;
   flex-direction: row;
-  flex-wrap: wrap;
+  /* flex-wrap: wrap; */
   align-items: center;
   width: 100%;
   overflow-x: scroll;
