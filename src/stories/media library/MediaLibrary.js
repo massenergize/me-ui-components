@@ -1,22 +1,29 @@
-import React, { useRef, useState } from "react";
+import React, { Suspense, useRef, useState } from "react";
 import PropTypes from "prop-types";
 import "./MediaLibrary.css";
 import Modal from "../modal/Modal";
-
 import SidePane from "./SidePane";
 import Upload from "./shared/components/upload/Upload";
-import Library from "./shared/components/library/Library";
+const Library = React.lazy(() => import("./shared/components/library/Library"));
 
 function MediaLibrary(props) {
   const [currentTab, setCurrentTab] = useState("upload");
   const [activeImage, setActiveImage] = useState(null);
 
   const Tabs = [
-    { headerName: "Upload", key: "upload", component: <Upload /> },
+    {
+      headerName: "Upload",
+      key: "upload",
+      component: <Upload />,
+    },
     {
       headerName: "Library",
       key: "library",
-      component: <Library getActiveImage={setActiveImage} />,
+      component: (
+        <Suspense fallback={<p>Loading...</p>}>
+          <Library getActiveImage={setActiveImage} />
+        </Suspense>
+      ),
     },
   ];
 

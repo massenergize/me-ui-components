@@ -2,11 +2,13 @@ import React, { useRef } from "react";
 import PropTypes from "prop-types";
 import "./Upload.css";
 import uploadDummy from "./up_img.png";
+import { getFilesFromTransfer } from "../../utils/utils";
 function Upload(props) {
   const dragBoxRef = useRef(null);
   const handleDroppedFile = (e) => {
     e.preventDefault();
-    const files = e?.dataTransfer?.items;
+    dragBoxRef.current.style.background = "transparent";
+    const files = getFilesFromTransfer(e?.dataTransfer?.items);
     console.log("I am teh items bud", files);
   };
   return (
