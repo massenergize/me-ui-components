@@ -52,7 +52,6 @@
   border-top-right-radius: 6px;
   border-bottom-right-radius: 6px;
   opacity: 0;
- 
 }
 .m-title-bar {
   padding: 10px 30px;
@@ -106,31 +105,31 @@
 }
 
 @keyframes key-animate-img {
-  from{
+  from {
     opacity: 0;
     transform: scale(0.7);
   }
-  to { 
+  to {
     opacity: 1;
-    transform: scale(1)
+    transform: scale(1);
   }
 }
 
-.animate-img { 
-  animation: key-animate-img; 
-  animation-duration: .2s;
+.animate-img {
+  animation: key-animate-img;
+  animation-duration: 0.2s;
   animation-fill-mode: forwards;
 }
-.animate-img-slow { 
-  animation: key-animate-img; 
-  animation-duration: .2s;
-  animation-delay: .3s;
+.animate-img-slow {
+  animation: key-animate-img;
+  animation-duration: 0.5s;
+  animation-delay: 0.3s;
   animation-fill-mode: forwards;
 }
-.animate-img-slowest { 
-  animation: key-animate-img; 
-  animation-duration: .2s;
-  animation-delay: .5s;
+.animate-img-slowest {
+  animation: key-animate-img;
+  animation-duration: 1s;
+  animation-delay: 0.5s;
   animation-fill-mode: forwards;
 }
 .m-thumb-image:hover {

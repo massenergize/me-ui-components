@@ -9,6 +9,7 @@ import {
   readContentOfSelectedFile,
   smartString,
 } from "../../utils/utils";
+import { spinner } from "../../utils/values";
 
 export const EXTENSIONS = [
   "image/jpg",
@@ -16,7 +17,15 @@ export const EXTENSIONS = [
   "image/jpeg",
   "application/pdf",
 ];
-function Upload({ files, setFiles, previews, setPreviews, multiple }) {
+function Upload({
+  files,
+  setFiles,
+  previews,
+  setPreviews,
+  multiple,
+  uploading,
+  upload, //the upload function
+}) {
   const dragBoxRef = useRef(null);
   const fileOpenerRef = useRef(null);
   useEffect(() => {}, [previews, files]);
@@ -69,6 +78,7 @@ function Upload({ files, setFiles, previews, setPreviews, multiple }) {
     setPreviews(restPreviews);
     setFiles(restFiles);
   };
+
   return (
     <div
       style={{
@@ -104,35 +114,44 @@ function Upload({ files, setFiles, previews, setPreviews, multiple }) {
             <p>
               Upload ({files?.length}) File{files?.length == 1 ? "" : "s"}
             </p>
-            <button
-              className="ml-footer-btn"
-              style={{
-                "--btn-color": "white",
-                "--btn-background": "green",
-                height: "auto",
-                borderRadius: 4,
-              }}
-            >
-              UPLOAD
-            </button>
+            {uploading ? (
+              <img src={spinner} style={{ height: 70 }} />
+            ) : (
+              <button
+                className="ml-footer-btn"
+                style={{
+                  "--btn-color": "white",
+                  "--btn-background": "green",
+                  height: "auto",
+                  borderRadius: 4,
+                }}
+                onClick={() => upload()}
+              >
+                UPLOAD
+              </button>
+            )}
           </>
         ) : (
           <>
             <img src={uploadDummy} style={{ width: 110, height: 66 }} />
           </>
         )}
-        <p>
-          Drag and drop image here or{" "}
-          <a
-            href="#void"
-            onClick={(e) => {
-              e.preventDefault();
-              fileOpenerRef.current.click();
-            }}
-          >
-            browse
-          </a>
-        </p>
+        {uploading ? (
+          <p style={{ color: "#de8b28" }}>Uploading, please be patient...</p>
+        ) : (
+          <p>
+            Drag and drop image here or{" "}
+            <a
+              href="#void"
+              onClick={(e) => {
+                e.preventDefault();
+                fileOpenerRef.current.click();
+              }}
+            >
+              browse
+            </a>
+          </p>
+        )}
       </div>
       {/* ----------------- PREVIEW AREA --------------- */}
       <div className="ml-preview-area">
@@ -140,7 +159,11 @@ function Upload({ files, setFiles, previews, setPreviews, multiple }) {
           // console.log("This is the preview: ", prev);
           return (
             <React.Fragment key={prev?.id?.toString()}>
-              <PreviewElement {...prev} remove={removeAnImage} />
+              <PreviewElement
+                {...prev}
+                remove={removeAnImage}
+                uploading={uploading}
+              />
             </React.Fragment>
           );
         })}
@@ -149,7 +172,7 @@ function Upload({ files, setFiles, previews, setPreviews, multiple }) {
   );
 }
 
-const PreviewElement = ({ file, id, src, sizeText, remove }) => {
+const PreviewElement = ({ file, id, src, sizeText, remove, uploading }) => {
   return (
     <div
       style={{
@@ -165,9 +188,11 @@ const PreviewElement = ({ file, id, src, sizeText, remove }) => {
       <small>
         Size: <b>{sizeText}</b>
       </small>
-      <small className="ml-prev-el-remove" onClick={() => remove(id)}>
-        Remove
-      </small>
+      {!uploading && (
+        <small className="ml-prev-el-remove" onClick={() => remove(id)}>
+          Remove
+        </small>
+      )}
     </div>
   );
 };

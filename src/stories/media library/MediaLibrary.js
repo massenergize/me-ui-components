@@ -19,6 +19,29 @@ function MediaLibrary({
   const [previews, setPreviews] = useState([]);
   const [files, setFiles] = useState([]);
   const [content, setSelectedContent] = useState(null);
+  const [state, setState] = useState({});
+
+  const handleUpload = () => {
+    if (!onUpload) return;
+    setState((prev) => ({ ...prev, uploading: true }));
+    onUpload(files, setCurrentTab, reset);
+  };
+
+  const handleInsert = () => {
+    if (!onInsert) return;
+    onInsert(content, reset);
+  };
+
+  const handleCancel = () => {
+    if (!onCancel) return;
+    onCancel();
+  };
+
+  const reset = () => {
+    setPreviews([]);
+    setFiles([]);
+    setState({});
+  };
 
   const Tabs = [
     {
@@ -31,6 +54,8 @@ function MediaLibrary({
           files={files}
           setFiles={setFiles}
           multiple={multiple}
+          uploading={state?.uploading}
+          upload={handleUpload}
         />
       ),
     },
@@ -44,6 +69,7 @@ function MediaLibrary({
             content={content}
             setShowSidePane={setShowSidePane}
             multiple={multiple}
+            images={images}
           />
         </Suspense>
       ),
@@ -57,7 +83,7 @@ function MediaLibrary({
     <React.Fragment>
       <Modal
         showOverlay={false}
-        size="lg"
+        size="md"
         style={{
           minHeight: 680,
           borderBottomRightRadius: 0,
@@ -99,14 +125,20 @@ function MediaLibrary({
             {/* ------------------------ MAIN TAB DISPLAY AREA ------------------- */}
             <div>{TabComponent}</div>
           </div>
-          <Footer files={files} content={content} multiple={multiple} />
+          <Footer
+            files={files}
+            content={content}
+            multiple={multiple}
+            cancel={handleCancel}
+            insert={handleInsert}
+          />
         </div>
       </Modal>
     </React.Fragment>
   );
 }
 
-const Footer = ({ files, content, multiple }) => {
+const Footer = ({ content, multiple, cancel, insert }) => {
   var len = content && 1;
   if (multiple) len = content?.length;
 
@@ -119,12 +151,14 @@ const Footer = ({ files, content, multiple }) => {
         <button
           className="ml-footer-btn"
           style={{ "--btn-color": "white", "--btn-background": "maroon" }}
+          cancel={() => cancel()}
         >
           CANCEL
         </button>
         <button
           className="ml-footer-btn"
           style={{ "--btn-color": "white", "--btn-background": "green" }}
+          onClick={() => insert()}
         >
           INSERT {len > 0 ? `(${len})` : ""}
         </button>
@@ -135,18 +169,20 @@ const Footer = ({ files, content, multiple }) => {
 MediaLibrary.propTypes = {
   /**
    * @param images
-   * Functions that retrieves all selected images out of teh component  */
+   * Functions that retrieves all selected images out of the component  */
   onInsert: PropTypes.func,
   /** Should be a function that closes the modal */
   onCancel: PropTypes.func,
   /**
    * @param files
+   * @tabChanger Provides a function that will allow you to change tab outside the component
+   * @reset Provides a function that will reset the component
    * Function that should run to upload selected files to backend */
   onUpload: PropTypes.func,
   /**
    * Array of images to be shown in the library
    */
-  images: PropTypes.arrayOf(PropTypes.object),
+  images: PropTypes.arrayOf(PropTypes.object).isRequired,
   /**
    * Sets whether multiple images should be selected for upload.
    * Same field determines if user should be allowed to select multiple images from library
@@ -156,5 +192,6 @@ MediaLibrary.propTypes = {
 
 MediaLibrary.defaultProps = {
   multiple: true,
+  images: [],
 };
 export default MediaLibrary;

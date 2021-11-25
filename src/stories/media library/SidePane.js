@@ -1,5 +1,6 @@
 import React from "react";
 import ImageThumbnail from "./shared/components/thumbnail/ImageThumbnail";
+import { getRandomStringKey } from "./shared/utils/utils";
 
 export default function SidePane({ activeImage, setShowSidePane }) {
   return (
@@ -9,6 +10,7 @@ export default function SidePane({ activeImage, setShowSidePane }) {
         <ImageThumbnail
           style={{ width: "100%", height: 200 }}
           imageSource={activeImage?.url}
+          key={getRandomStringKey()}
         />
 
         <h6 style={{ margin: 0 }}>URL</h6>

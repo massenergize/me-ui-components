@@ -2,14 +2,15 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import broken from "./img_broken.png";
 import loadingGif from "./loading-gif.gif";
-import { getRandomItem } from "../../utils/utils";
+import { getRandomItem, getRandomStringKey } from "../../utils/utils";
 const animations = ["animate-img", "animate-img-slow", "animate-img-slowest"];
-function ImageThumbnail({ onClick, imageSource, style = {} }) {
+
+function ImageThumbnail({ onClick, imageSource, style = {}, key }) {
   const [showImage, setShowImage] = useState(false);
   const [src, setSrc] = useState(null);
 
   return (
-    <div className="m-thumbnail">
+    <div className="m-thumbnail" key={key}>
       {/*  This is what actually loads the image, but is always invisible */}
       <img
         src={imageSource}

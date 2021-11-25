@@ -59,6 +59,9 @@ const Curtain = ({ close }) => {
 Modal.propTypes = {
   size: PropTypes.string,
   customSize: PropTypes.bool,
+  /**
+   * Indicate width size as a percentage
+   */
   sizeValue: PropTypes.string,
   showOverlay: PropTypes.bool,
 };

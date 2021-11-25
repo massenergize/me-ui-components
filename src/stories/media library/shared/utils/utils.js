@@ -1,7 +1,7 @@
 import { EXTENSIONS } from "../components/upload/Upload";
 
 export const getRandomItem = (arr = [], limit) => {
-  return arr[getRandomInteger(limit)];
+  return arr[getRandomInteger(arr.length - 1)];
 };
 export const getFilesFromTransfer = (transferItems) => {
   if (!transferItems) return [];

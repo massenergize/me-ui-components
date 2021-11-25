@@ -2,13 +2,14 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 
 import ImageThumbnail from "../thumbnail/ImageThumbnail";
+import { blank } from "../../utils/values";
 
 function Library({
   multiple,
-  getActiveImage,
   setSelectedContent,
   content,
   setShowSidePane,
+  images,
 }) {
   const handleSelection = (image) => {
     setShowSidePane(true);
@@ -26,6 +27,21 @@ function Library({
     return images?.find((img) => img.id === image.id);
   };
 
+  if (!images || images?.length == 0)
+    return (
+      <div
+        style={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          flexDirection: "column",
+          height: "100%",
+        }}
+      >
+        <img src={blank} style={{ height: 180 }} />
+        <p style={{ color: "grey" }}>No images available to choose from</p>
+      </div>
+    );
   return (
     <div>
       <div className="m-content-area" style={{ padding: 15 }}>
@@ -51,15 +67,3 @@ function Library({
 Library.propTypes = {};
 
 export default Library;
- 
-const images = [
-  { url: "https://i.pravatar.cc/300?img=3", id: 1 },
-  { url: "https://i.pravatar.cc/300?img=5", id: 12 },
-  { url: "https://i.pravatar.cc/300?img=9", id: 14 },
-  { url: "https://i.pravatar.cc/300?img=1", id: 15 },
-  { url: "https://i.pravatar.cc/300?img=6", id: 16 },
-  { url: "https://i.pravatar.cc/300?img=31", id: 18 },
-  { url: "https://i.pravatar.cc/300?img=17", id: 19 },
-  { url: "https://i.pravatar.cc/300?img=30", id: 11 },
-  { url: "https://i.pravatar.cc/300?img=8", id: 32 },
-];
