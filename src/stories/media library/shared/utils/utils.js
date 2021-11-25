@@ -1,5 +1,8 @@
 import { EXTENSIONS } from "../components/upload/Upload";
 
+export const getRandomItem = (arr = [], limit) => {
+  return arr[getRandomInteger(limit)];
+};
 export const getFilesFromTransfer = (transferItems) => {
   if (!transferItems) return [];
   const arr = [];
@@ -12,7 +15,6 @@ export const getFilesFromTransfer = (transferItems) => {
       else console.log(`Sorry file type ${file?.type} isnt supported`);
     }
   }
-  console.log("DROPDED", arr);
   return arr;
 };
 
@@ -26,6 +28,10 @@ export const readContentOfSelectedFile = (file, cb) => {
     reader.onerror = reject;
     reader.readAsDataURL(file);
   });
+};
+
+export const getRandomInteger = (limit = 9999999) => {
+  return Math.floor(Math.random() * limit);
 };
 
 export const getRandomStringKey = (limit = 9999999) => {

@@ -51,7 +51,7 @@ function Library({
 Library.propTypes = {};
 
 export default Library;
-
+ 
 const images = [
   { url: "https://i.pravatar.cc/300?img=3", id: 1 },
   { url: "https://i.pravatar.cc/300?img=5", id: 12 },
@@ -61,5 +61,5 @@ const images = [
   { url: "https://i.pravatar.cc/300?img=31", id: 18 },
   { url: "https://i.pravatar.cc/300?img=17", id: 19 },
   { url: "https://i.pravatar.cc/300?img=30", id: 11 },
-  { url: "https://i.pravatar.cc/300?img=8", id: 18 },
+  { url: "https://i.pravatar.cc/300?img=8", id: 32 },
 ];

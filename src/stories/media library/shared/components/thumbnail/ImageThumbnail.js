@@ -2,7 +2,8 @@ import React, { useState } from "react";
 import PropTypes from "prop-types";
 import broken from "./img_broken.png";
 import loadingGif from "./loading-gif.gif";
-
+import { getRandomItem } from "../../utils/utils";
+const animations = ["animate-img", "animate-img-slow", "animate-img-slowest"];
 function ImageThumbnail({ onClick, imageSource, style = {} }) {
   const [showImage, setShowImage] = useState(false);
   const [src, setSrc] = useState(null);
@@ -33,7 +34,7 @@ function ImageThumbnail({ onClick, imageSource, style = {} }) {
         <img
           onClick={() => onClick && onClick()}
           src={src}
-          className="m-thumb-image"
+          className={`m-thumb-image ${getRandomItem(animations)}`}
           style={style}
           onError={(e) => (e.target.src = broken)}
         />
