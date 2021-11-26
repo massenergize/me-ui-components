@@ -35,7 +35,7 @@ function Modal(props) {
       {showOverlay && <Curtain />}
       <div className="m-container">
         <div
-          className={`m-content-wrapper elevate-1 ${className}`}
+          className={`m-content-wrapper elevate-1 ml-modal-scale-in ${className}`}
           style={{
             "--modal-width-size": getSize(
               customSize ? "custom" : size,

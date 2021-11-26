@@ -10,6 +10,7 @@ function Library({
   content,
   setShowSidePane,
   images,
+  sourceExtractor,
 }) {
   const handleSelection = (image) => {
     setShowSidePane(true);
@@ -25,6 +26,11 @@ function Library({
     if (!multiple) return image?.id === content?.id;
     var images = content || [];
     return images?.find((img) => img.id === image.id);
+  };
+
+  const getImageSource = (image) => {
+    if (sourceExtractor) return sourceExtractor(image);
+    return image.url;
   };
 
   if (!images || images?.length == 0)
@@ -50,7 +56,7 @@ function Library({
           return (
             <div key={index.toString()} style={{ position: "relative" }}>
               <ImageThumbnail
-                imageSource={image.url}
+                imageSource={getImageSource(image)}
                 onClick={() => handleSelection(image)}
               />
               {selected && (

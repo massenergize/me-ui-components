@@ -4,7 +4,7 @@ import "./MediaLibrary.css";
 import Modal from "../modal/Modal";
 import SidePane from "./SidePane";
 import Upload from "./shared/components/upload/Upload";
-const Library = React.lazy(() => import("./shared/components/library/Library"));
+const Library = React.lazy(() => import("./shared/components/library/Library")); // so that library component only loads when needed
 
 function MediaLibrary({
   multiple = true,
@@ -12,6 +12,7 @@ function MediaLibrary({
   onCancel,
   onUpload,
   images,
+  sourceExtractor,
 }) {
   const [currentTab, setCurrentTab] = useState("upload");
   const [showSidePane, setShowSidePane] = useState(false);
@@ -65,6 +66,7 @@ function MediaLibrary({
       component: (
         <Suspense fallback={<p>Loading...</p>}>
           <Library
+            sourceExtractor={sourceExtractor}
             setSelectedContent={setSelectedContent}
             content={content}
             setShowSidePane={setShowSidePane}
@@ -188,6 +190,10 @@ MediaLibrary.propTypes = {
    * Same field determines if user should be allowed to select multiple images from library
    */
   multiple: PropTypes.bool,
+  /**
+   * A function that is used to extract the  URL of each image
+   */
+  sourceExtractor: PropTypes.func,
 };
 
 MediaLibrary.defaultProps = {

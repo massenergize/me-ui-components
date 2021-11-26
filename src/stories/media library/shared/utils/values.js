@@ -3,7 +3,7 @@ import _blank from "./../images/blank_canvas.png";
 export const spinner = _spinner;
 export const blank = _blank;
 
-const dummImages = [
+export const dummyImages = [
   { url: "https://i.pravatar.cc/300?img=3", id: 1 },
   { url: "https://i.pravatar.cc/300?img=5", id: 12 },
   { url: "https://i.pravatar.cc/300?img=9", id: 14 },
