@@ -8,7 +8,9 @@ const animations = ["animate-img", "animate-img-slow", "animate-img-slowest"];
 function ImageThumbnail({ onClick, imageSource, style = {}, key }) {
   const [showImage, setShowImage] = useState(false);
   const [src, setSrc] = useState(null);
-
+  const noSelectionStyle = !onClick
+    ? { boxShadow: "0 0 0", borderColor: "white" }
+    : {};
   return (
     <div className="m-thumbnail" key={key}>
       {/*  This is what actually loads the image, but is always invisible */}
@@ -36,7 +38,7 @@ function ImageThumbnail({ onClick, imageSource, style = {}, key }) {
           onClick={() => onClick && onClick()}
           src={src}
           className={`m-thumb-image ${getRandomItem(animations)}`}
-          style={style}
+          style={{ ...style, ...noSelectionStyle }}
           onError={(e) => (e.target.src = broken)}
         />
       )}

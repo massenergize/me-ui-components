@@ -1,6 +1,7 @@
 import React from "react";
 import ImageThumbnail from "../thumbnail/ImageThumbnail";
 import { getRandomStringKey } from "../../utils/utils";
+import MLButton from "../button/MLButton";
 
 export default function SidePane({ activeImage, setShowSidePane }) {
   return (
@@ -8,7 +9,7 @@ export default function SidePane({ activeImage, setShowSidePane }) {
       <div style={{ position: "relative", height: "100%", padding: 15 }}>
         <h5 style={{ margin: 0, marginBottom: 10 }}>IMAGE DETAILS</h5>
         <ImageThumbnail
-          style={{ width: "100%", height: 200 }}
+          style={{ width: "100%", height: 200, objectFit: "contain" }}
           imageSource={activeImage?.url}
           key={getRandomStringKey()}
         />
@@ -18,7 +19,21 @@ export default function SidePane({ activeImage, setShowSidePane }) {
           {activeImage?.url}
         </a>
 
-        <button
+        <MLButton
+          onClick={() => setShowSidePane(false)}
+          backColor="#245a93"
+          style={{
+            position: "absolute",
+            bottom: 0,
+            left: 0,
+            width: "100%",
+            height: "auto",
+            padding: "15px 40px",
+          }}
+        >
+          HIDE
+        </MLButton>
+        {/* <button
           className="ml-footer-btn"
           style={{
             "--btn-color": "white",
@@ -29,10 +44,9 @@ export default function SidePane({ activeImage, setShowSidePane }) {
             width: "100%",
             height: "auto",
           }}
-          onClick={() => setShowSidePane(false)}
         >
           HIDE
-        </button>
+        </button> */}
       </div>
     </div>
   );

@@ -32,7 +32,7 @@ function Modal(props) {
   } = props;
   return (
     <>
-      {showOverlay && <Curtain />}
+      {showOverlay && <Curtain close={close} />}
       <div className="m-container">
         <div
           className={`m-content-wrapper elevate-1 ml-modal-scale-in ${className}`}
@@ -53,7 +53,10 @@ function Modal(props) {
 
 const Curtain = ({ close }) => {
   return (
-    <div className="ghost-curtain" close={() => (close ? close() : null)}></div>
+    <div
+      className="ghost-curtain"
+      onClick={() => (close ? close() : null)}
+    ></div>
   );
 };
 Modal.propTypes = {

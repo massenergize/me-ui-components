@@ -1,8 +1,9 @@
 import _spinner from "./../images/loading-gif.gif";
 import _blank from "./../images/blank_canvas.png";
+import _libraryImage from "./../images/lib.png";
 export const spinner = _spinner;
 export const blank = _blank;
-
+export const libraryImage = _libraryImage;
 export const dummyImages = [
   { url: "https://i.pravatar.cc/300?img=3", id: 1 },
   { url: "https://i.pravatar.cc/300?img=5", id: 12 },

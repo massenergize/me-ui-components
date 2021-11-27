@@ -1,6 +1,4 @@
-import React, { Suspense, useRef, useState, useEffect } from "react";
-import PropTypes from "prop-types";
-// import "./MediaLibrary.css";
+import React, { Suspense, useState } from "react";
 import Modal from "./../../../../modal/Modal";
 import SidePane from "./../sidepane/SidePane";
 import Upload from "./../upload/Upload";
@@ -9,13 +7,14 @@ const Library = React.lazy(() => import("./../library/Library")); // so that lib
 
 function MediaLibraryModal({
   multiple = true,
-  onInsert,
-  onCancel,
+
+  cancel,
   onUpload,
   images,
   sourceExtractor,
   defaultTab,
   selected,
+  getSelected,
 }) {
   const [currentTab, setCurrentTab] = useState(defaultTab);
   const [showSidePane, setShowSidePane] = useState(false);
@@ -31,13 +30,8 @@ function MediaLibraryModal({
   };
 
   const handleInsert = () => {
-    if (!onInsert) return;
-    onInsert(content, reset);
-  };
-
-  const handleCancel = () => {
-    if (!onCancel) return;
-    onCancel();
+    getSelected(content, reset);
+    cancel();
   };
 
   const reset = () => {
@@ -86,7 +80,7 @@ function MediaLibraryModal({
   return (
     <React.Fragment>
       <Modal
-        // showOverlay={false}
+        close={cancel}
         size="md"
         style={{
           minHeight: 680,
@@ -111,6 +105,7 @@ function MediaLibraryModal({
                   const isCurrent = currentTab === tab.key;
                   return (
                     <div
+                      key={tab.key}
                       className={`m-tab-header-item m-tab-header-item-${
                         isCurrent ? "selected" : "unselected"
                       }`}
@@ -133,7 +128,7 @@ function MediaLibraryModal({
             files={files}
             content={content}
             multiple={multiple}
-            cancel={handleCancel}
+            cancel={cancel}
             insert={handleInsert}
           />
         </div>
@@ -155,13 +150,7 @@ const Footer = ({ content, multiple, cancel, insert }) => {
         <MLButton backColor="maroon" btnColor="white" onClick={cancel}>
           CANCEL
         </MLButton>
-        {/* <button
-          className="ml-footer-btn"
-          style={{ "--btn-color": "white", "--btn-background": "maroon" }}
-          cancel={() => cancel()}
-        >
-          CANCEL
-        </button> */}
+
         <button
           className="ml-footer-btn"
           style={{ "--btn-color": "white", "--btn-background": "green" }}
@@ -172,37 +161,6 @@ const Footer = ({ content, multiple, cancel, insert }) => {
       </div>
     </div>
   );
-};
-MediaLibraryModal.propTypes = {
-  /**
-   * @param images
-   * Functions that retrieves all selected images out of the component  */
-  onInsert: PropTypes.func,
-  /** Should be a function that closes the modal */
-  onCancel: PropTypes.func,
-  /**
-   * @param files
-   * @tabChanger Provides a function that will allow you to change tab outside the component
-   * @reset Provides a function that will reset the component
-   * Function that should run to upload selected files to backend */
-  onUpload: PropTypes.func,
-  /**
-   * Array of images to be shown in the library
-   */
-  images: PropTypes.arrayOf(PropTypes.object).isRequired,
-  /**
-   * Sets whether multiple images should be selected for upload.
-   * Same field determines if user should be allowed to select multiple images from library
-   */
-  multiple: PropTypes.bool,
-  /**
-   * A function that is used to extract the  URL of each image
-   */
-  sourceExtractor: PropTypes.func,
-  /**
-   * List of images to show as preselected items in the library. Should be an array if multiple = true, and not an array if multiple = false
-   */
-  selected: PropTypes.arrayOf(PropTypes.object),
 };
 
 MediaLibraryModal.UPLOAD_TAB = "upload";
