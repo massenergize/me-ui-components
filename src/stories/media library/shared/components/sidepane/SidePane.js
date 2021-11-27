@@ -1,6 +1,6 @@
 import React from "react";
-import ImageThumbnail from "./shared/components/thumbnail/ImageThumbnail";
-import { getRandomStringKey } from "./shared/utils/utils";
+import ImageThumbnail from "../thumbnail/ImageThumbnail";
+import { getRandomStringKey } from "../../utils/utils";
 
 export default function SidePane({ activeImage, setShowSidePane }) {
   return (
