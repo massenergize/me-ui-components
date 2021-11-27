@@ -7,14 +7,14 @@ const Library = React.lazy(() => import("./../library/Library")); // so that lib
 
 function MediaLibraryModal({
   multiple = true,
-
-  cancel,
+  close,
   onUpload,
   images,
   sourceExtractor,
   defaultTab,
   selected,
   getSelected,
+  uploadMultiple,
 }) {
   const [currentTab, setCurrentTab] = useState(defaultTab);
   const [showSidePane, setShowSidePane] = useState(false);
@@ -23,6 +23,7 @@ function MediaLibraryModal({
   const [content, setSelectedContent] = useState(selected);
   const [state, setState] = useState({});
 
+  
   const handleUpload = () => {
     if (!onUpload) return;
     setState((prev) => ({ ...prev, uploading: true }));
@@ -31,7 +32,7 @@ function MediaLibraryModal({
 
   const handleInsert = () => {
     getSelected(content, reset);
-    cancel();
+    close();
   };
 
   const reset = () => {
@@ -50,7 +51,7 @@ function MediaLibraryModal({
           setPreviews={setPreviews}
           files={files}
           setFiles={setFiles}
-          multiple={multiple}
+          multiple={uploadMultiple}
           uploading={state?.uploading}
           upload={handleUpload}
         />
@@ -80,7 +81,7 @@ function MediaLibraryModal({
   return (
     <React.Fragment>
       <Modal
-        close={cancel}
+        close={close}
         size="md"
         style={{
           minHeight: 680,
@@ -128,7 +129,7 @@ function MediaLibraryModal({
             files={files}
             content={content}
             multiple={multiple}
-            cancel={cancel}
+            cancel={close}
             insert={handleInsert}
           />
         </div>

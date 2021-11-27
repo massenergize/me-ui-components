@@ -5,14 +5,14 @@ import loadingGif from "./loading-gif.gif";
 import { getRandomItem, getRandomStringKey } from "../../utils/utils";
 const animations = ["animate-img", "animate-img-slow", "animate-img-slowest"];
 
-function ImageThumbnail({ onClick, imageSource, style = {}, key }) {
+function ImageThumbnail({ onClick, imageSource, style = {} }) {
   const [showImage, setShowImage] = useState(false);
   const [src, setSrc] = useState(null);
   const noSelectionStyle = !onClick
     ? { boxShadow: "0 0 0", borderColor: "white" }
     : {};
   return (
-    <div className="m-thumbnail" key={key}>
+    <div className="m-thumbnail">
       {/*  This is what actually loads the image, but is always invisible */}
       <img
         src={imageSource}

@@ -155,8 +155,7 @@ function Upload({
       </div>
       {/* ----------------- PREVIEW AREA --------------- */}
       <div className="ml-preview-area">
-        {previews?.map((prev, index) => {
-          // console.log("This is the preview: ", prev);
+        {previews?.map((prev) => {
           return (
             <React.Fragment key={prev?.id?.toString()}>
               <PreviewElement

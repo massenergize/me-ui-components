@@ -16,6 +16,7 @@ function MediaLibrary(props) {
   const transfer = (content, reset) => {
     if (onInsert) return onInsert(content, reset);
   };
+
   const handleSelected = (content, reset) => {
     setTrayImages(content);
     setState((prev) => ({ ...prev, resetor: reset }));
@@ -23,18 +24,19 @@ function MediaLibrary(props) {
   };
 
   const remove = (id) => {
-    if (!multiple) setTrayImages(null);
+    if (!multiple) return setTrayImages(null);
     const rest = imageTray?.filter((itm) => itm.id !== id);
     setTrayImages(rest);
     transfer(rest, state?.resetor);
   };
+
   return (
     <React.Fragment>
       {show && (
         <div style={{ position: "fixed" }}>
           <MediaLibraryModal
             {...props}
-            cancel={() => setShow(false)}
+            close={() => setShow(false)}
             getSelected={handleSelected}
             selected={imageTray}
           />
@@ -53,33 +55,15 @@ function MediaLibrary(props) {
           borderRadius: 10,
         }}
       >
-        {!imageTray || !imageTray?.length ? (
+        {!imageTray || imageTray?.length === 0 ? (
           <img src={libraryImage} style={{ height: 150 }} />
         ) : (
-          <div style={{ display: "flex" }}>
-            {imageTray?.map((img, index) => {
-              const src = sourceExtractor ? sourceExtractor(img) : img.url;
-              return (
-                <div
-                  key={index.toString()}
-                  style={{
-                    display: "flex",
-                    alignItems: "center",
-                    justifyContent: "center",
-                    flexDirection: "column",
-                  }}
-                >
-                  <img src={src} className="ml-preview-image elevate-float" />
-                  <small
-                    className="ml-prev-el-remove"
-                    onClick={() => remove(img.id)}
-                  >
-                    Remove
-                  </small>
-                </div>
-              );
-            })}
-          </div>
+          <ImageTray
+            sourceExtractor={sourceExtractor}
+            content={imageTray}
+            remove={remove}
+            multiple={multiple}
+          />
         )}
 
         <MediaLibrary.Button
@@ -95,10 +79,59 @@ function MediaLibrary(props) {
   );
 }
 
+const ImageTray = ({ sourceExtractor, remove, content, multiple }) => {
+  if (!multiple)
+    return (
+      <TrayImage
+        src={sourceExtractor ? sourceExtractor(content) : content?.url}
+        id={content?.id}
+        remove={remove}
+      />
+    );
+  return (
+    <div
+      style={{
+        display: "flex",
+        overflowX: "scroll",
+        width: "100%",
+        alignItems: "center",
+        justifyContent: "center",
+      }}
+    >
+      {content?.map((img, index) => {
+        const src = sourceExtractor ? sourceExtractor(img) : img.url;
+        return (
+          <React.Fragment key={index.toString()}>
+            <TrayImage src={src} id={img?.id} remove={remove} />
+          </React.Fragment>
+        );
+      })}
+    </div>
+  );
+};
+
+const TrayImage = ({ src, remove, id }) => {
+  return (
+    <div
+      style={{
+        display: "flex",
+        alignItems: "center",
+        justifyContent: "center",
+        flexDirection: "column",
+      }}
+    >
+      <img src={src} className="ml-preview-image elevate-float" />
+      <small className="ml-prev-el-remove" onClick={() => remove(id)}>
+        Remove
+      </small>
+    </div>
+  );
+};
+
 MediaLibrary.propTypes = {
   /**
    * @param images
-   * Functions that retrieves all selected images out of the component  */
+   * Function that retrieves all selected images out of the component  */
   onInsert: PropTypes.func,
 
   /**
@@ -111,9 +144,13 @@ MediaLibrary.propTypes = {
    * Array of images to be shown in the library
    */
   images: PropTypes.arrayOf(PropTypes.object).isRequired,
+
+  /**
+   determines if user will be allowed to select multiple images from library
+   */
+  uploadMultiple: PropTypes.bool,
   /**
    * Sets whether multiple images should be selected for upload.
-   * Same field determines if user should be allowed to select multiple images from library
    */
   multiple: PropTypes.bool,
   /**
