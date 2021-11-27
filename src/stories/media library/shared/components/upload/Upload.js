@@ -28,7 +28,6 @@ function Upload({
 }) {
   const dragBoxRef = useRef(null);
   const fileOpenerRef = useRef(null);
-  useEffect(() => {}, [previews, files]);
 
   const handleSelectedFiles = (e) => {
     e.preventDefault();
@@ -39,7 +38,8 @@ function Upload({
       const fileJson = { id: getRandomStringKey(), file: file };
       arr.push(fileJson);
     }
-    setFiles((prevFiles) => [...prevFiles, ...arr]);
+    if (multiple) setFiles((prevFiles) => [...prevFiles, ...arr]);
+    else setFiles(arr);
     processForPreview(arr);
   };
 
@@ -47,13 +47,15 @@ function Upload({
     e.preventDefault();
     dragBoxRef.current.classList.remove("ml-drag-over");
     var _files = getFilesFromTransfer(e?.dataTransfer?.items);
+    if (!multiple) _files = [_files[0]]; // if multiple is set to false, just choose the first item from the lot the user dragged in
     var arr = [];
     for (let i = 0; i < _files.length; i++) {
       const file = _files[i];
       const fileJson = { id: getRandomStringKey(), file: file };
       arr.push(fileJson);
     }
-    _files = [...files, ...arr];
+    if (!multiple) _files = arr;
+    else _files = [...files, ...arr];
     setFiles(_files);
     processForPreview(arr);
   };
@@ -67,7 +69,8 @@ function Upload({
         src: baseImage,
         sizeText: getFileSize(fileObj?.file),
       };
-      setPreviews((previous) => [...previous, obj]);
+      if (multiple) setPreviews((previous) => [...previous, obj]);
+      else setPreviews([obj]);
     }
   };
 

@@ -12,7 +12,7 @@ const Template = (args) => <MediaLibrary {...args} />;
 export const Default = Template.bind({});
 Default.args = {
   images: dummyImages,
-  uploadMultiple: false,
+  uploadMultiple: true,
   multiple: false,
   // selected: [
   //   { url: "https://i.pravatar.cc/300?img=3", id: 18 },
