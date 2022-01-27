@@ -25,8 +25,22 @@ export default function BigCalendar() {
           {
             title: "This is my first event bro",
             start: new Date("January 21, 2022 03:24:00"),
-            end: new Date("February 21, 2022 04:24:00"),
-            allDay: true,
+            end: new Date("January 21, 2022 04:24:00"),
+          },
+          {
+            title: "Another one bites the dust",
+            start: new Date("January 21, 2022 05:14:00"),
+            end: new Date("January 21, 2022 06:24:00"),
+          },
+          {
+            title: "Going for a walk bro",
+            start: new Date("January 21, 2022 07:24:00"),
+            end: new Date("January 21, 2022 08:24:00"),
+          },
+          {
+            title: "Whatever meerhn, this is the trenches",
+            start: new Date("January 21, 2022 09:24:00"),
+            end: new Date("January 21, 2022 10:24:00"),
           },
         ]}
         startAccessor="start"
@@ -36,8 +50,23 @@ export default function BigCalendar() {
         onSelectEvent={(event, e) =>
           console.log("I am an event that has been clicked bro", e)
         }
-        toolbar={false}
-        // defaultView={Views.AGENDA}
+        popup={true}
+        showMultiDayTimes={true}
+        eventPropGetter={() => ({
+          style: {
+            background: "green",
+            color: "white",
+            padding: 5,
+            margin: 3,
+            marginBottom: 0,
+            borderRadius: 0,
+          },
+        })}
+        onDrillDown={() => console.log("I am the on drilldown bro")}
+        selectable={true}
+        dayPropGetter={() => ({
+          style: { background: "antiquewhite", border: "solid 2px green" },
+        })}
       />
     </div>
   );
