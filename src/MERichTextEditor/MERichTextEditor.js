@@ -1,24 +1,34 @@
-import React, { useRef } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Editor } from "@tinymce/tinymce-react";
 const TINY_MCE_API_KEY = "3fpefbsmtkh71yhtjyykjwj5ezs3a5cac5ei018wvnlg2g0r";
 
-function MERichTextEditor({ onChange }) {
-    const editorRef = useRef(null);
-  //   const log = () => {
-  //     if (editorRef.current) {
-  //       console.log(editorRef.current.getContent());
-  //     }
-  //   };
+function MERichTextEditor({
+  onChange,
+  value,
+  defaultValue,
+  initialValue,
+  onMount,
+}) {
+  const editorRef = useRef(null);
+  const [content, setContent] = useState("");
 
   const handleOnChange = (content) => {
-    console.log("I am teh content my geee", content);
     onChange && onChange(content);
   };
+  const resetEditor = () => {
+    setContent("");
+  };
+
+  useEffect(() => {
+    onMount && onMount(resetEditor);
+  });
+
   return (
     <>
       <Editor
-        onInit={(evt, editor) => (editorRef.current = editor)}
-        initialValue="<p>This is the initial content of the editor.</p>"
+        onInit={(_, editor) => (editorRef.current = editor)}
+        initialValue={value || defaultValue || initialValue}
+        value={content}
         onEditorChange={handleOnChange}
         init={{
           height: 350,
@@ -34,7 +44,7 @@ function MERichTextEditor({ onChange }) {
         }}
         apiKey={TINY_MCE_API_KEY}
       />
-      {/* <button onClick={log}>Log editor content</button> */}
+      <button onClick={resetEditor}>Log editor content</button>
     </>
   );
 }
