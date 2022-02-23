@@ -1,9 +1,9 @@
 import React, { Suspense, useState } from "react";
-import Modal from "./../../../../modal/Modal";
-import SidePane from "./../sidepane/SidePane";
-import Upload from "./../upload/Upload";
+import Modal from "../../../../Modal/Modal";
+import SidePane from "../sidepane/SidePane";
+import Upload from "../upload/Upload";
 import MLButton from "../button/MLButton";
-const Library = React.lazy(() => import("./../library/Library")); // so that library component only loads when needed
+const Library = React.lazy(() => import("../library/Library")); // so that library component only loads when needed
 
 function MediaLibraryModal({
   multiple = true,
