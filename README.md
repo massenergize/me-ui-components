@@ -2,3 +2,5 @@
 
 Starting with 
 - Media Library 
+- Event Calendar
+- Wysiwyg Editor
