@@ -3,14 +3,20 @@ import Modal from "../stories/Modal/Modal";
 import "./IconDialog.css";
 const ICONS = require("./icon_files.json");
 
-function IconDialog({ perPage = 50, placeholder }) {
+function IconDialog({
+  perPage = 50,
+  placeholder,
+  onIconSelected,
+  defaultValue,
+  value,
+}) {
   const icons = ICONS.ICON_FILES;
   const [iconSet, setIconSet] = useState(icons.slice(0, perPage));
   const [searched, setSearched] = useState([]);
   const pages = Math.round(icons.length / perPage);
   const [page, setPage] = useState(1);
   const [show, setShow] = useState(false);
-  const [selected, setSelected] = useState(false);
+  const [selected, setSelected] = useState(defaultValue || value || null);
 
   const nextPage = () => {
     if (page >= pages) return;
@@ -39,6 +45,7 @@ function IconDialog({ perPage = 50, placeholder }) {
 
   const selectIcon = (iconName) => {
     setSelected(iconName);
+    onIconSelected && onIconSelected(iconName);
     setShow(false);
   };
 
